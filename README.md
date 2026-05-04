@@ -6,8 +6,8 @@ Provides RPC connectivity, health checks, and ecosystem routes for the API Gatew
 ## Features
 - Connects to Ethereum node via RPC (Alchemy or Infura)
 - Health check endpoint (`/rpc/health`)
-- Balance lookup (`/rpc/balance/:address`)
-- Transaction broadcast (`/rpc/sendTransaction`)
+- Balance lookup (`/balance/:address`)
+- Transaction broadcast (`/tx/send`)
 - Interactive API documentation via Swagger UI (`/docs`)
 
 

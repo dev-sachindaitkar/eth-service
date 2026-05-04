@@ -12,7 +12,32 @@ import { getEthEcosystemMarketData } from "../controllers/market.controller";
 
 const router = Router();
 
+/**
+ * @openapi
+ * /wallet/create:
+ *   get:
+ *     summary: Create a new wallet
+ *     responses:
+ *       200:
+ *         description: Wallet created successfully
+ */
 router.get("/wallet/create", createWalletController);
+
+/**
+ * @openapi
+ * /balance/{address}:
+ *   get:
+ *     summary: Get ETH balance
+ *     parameters:
+ *       - name: address
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Balance returned
+ */
 router.get(
   "/balance/:address",
   validate(balanceParamSchema),
@@ -29,8 +54,53 @@ const txRateLimit = rateLimit({
     });
   },
 });
+
+/**
+ * @openapi
+ * /tx/send:
+ *   post:
+ *     summary: Send ETH transaction
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               from:
+ *                 type: string
+ *               to:
+ *                 type: string
+ *               value:
+ *                 type: string
+ *               gas:
+ *                 type: string
+ *               gasPrice:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Transaction sent successfully
+ */
 router.post("/tx/send", validate(sendTxSchema), sendTxController);
+/**
+ * @openapi
+ * /market/eth-ecosystem:
+ *   get:
+ *     summary: Get ETH ecosystem market data
+ *     responses:
+ *       200:
+ *         description: Market data returned
+ */
 router.get("/market/eth-ecosystem", getEthEcosystemMarketData);
+/**
+ * @openapi
+ * /rpc/health:
+ *   get:
+ *     summary: Health check
+ *     responses:
+ *       200:
+ *         description: Service is healthy
+ */
 router.get("/rpc/health", txRateLimit, rpcHealthController);
 
 export default router;

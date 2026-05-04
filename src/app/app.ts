@@ -8,6 +8,7 @@ import { requestLogger } from "./middleware/requestLogger";
 import { globalRateLimit } from "./middleware/rateLimit";
 import helmet from "helmet";
 import cors from "cors";
+import { setupSwagger } from "./swagger";
 
 const app = express();
 app.use(requestLogger);
@@ -29,5 +30,6 @@ app.get("/health", (req, res) => {
   });
 });
 app.use(errorHandler);
+setupSwagger(app);
 
 export default app;
